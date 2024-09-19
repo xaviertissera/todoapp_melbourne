@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List with Reminders and Categories</title>
+
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <input type="text" id="taskInput" placeholder="Enter a new task">
+        <input type="date" id="taskDate" class="date-input" placeholder="Due Date">
+        <select id="taskPriority" class="priority-select">
+            <option value="low">Low Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="high">High Priority</option>
+        </select>
+        <select id="taskReminder" class="reminder-select">
+            <option value="none">No Reminder</option>
+            <option value="15m">15 minutes before</option>
+            <option value="30m">30 minutes before</option>
+            <option value="1h">1 hour before</option>
+            <option value="2h">2 hours before</option>
+            <option value="1d">1 day before</option>
+        </select>
+        <select id="taskCategory" class="category-select">
+            <option value="work">Work</option>
+            <option value="personal">Personal</option>
+            <option value="shopping">Shopping</option>
+            <option value="other">Other</option>
+        </select>
+        <button onclick="addTask()">Add Task</button>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <ul id="taskList"></ul> <!-- List of tasks will be displayed here -->
+    </div>
+
+    <!-- Link all the JS files -->
+    <script src="2member/2member.js"></script>     <!-- Person 2's JS file -->
+    <script src="3member/3member.js"></script>       <!-- Person 3's JS file -->
+    <script src="4member/4member.js"></script>   <!-- Person 4's JS file -->
+
+    <!-- Additional JavaScript for Calendar Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let calendarEl = document.getElementById('calendar');
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: loadTasksForCalendar(),
+                dateClick: function(info) {
+                    alert('Date clicked: ' + info.dateStr);
+                },
+                eventClick: function(info) {
+                    alert('Event clicked: ' + info.event.title);
+                }
+            });
+            calendar.render();
+        });
+
+        function loadTasksForCalendar() {
+            let savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            let events = savedTasks.map(task => {
+                let taskDate = new Date(task.date).toISOString().split('T')[0];
+                return {
+                    title: task.text,
+                    start: taskDate,
+                    color: getPriorityColor(task.priority)
+                };
+            });
+            return events;
+        }
+
+        function getPriorityColor(priority) {
+            switch (priority) {
+                case 'high': return 'red';
+                case 'medium': return 'orange';
+                case 'low': return 'green';
+            }
+        }
+    </script>
+</body>
+</html>
