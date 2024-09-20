@@ -234,3 +234,21 @@ li.removing {
 .progress-bar.filling {
     animation: fillProgress 2s ease forwards;
 }
+/* Add this to your style.css file */
+body {
+    background-image: url('path-to-your-image.jpg');
+    background-size: cover; /* Makes the image cover the entire background */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    height: 100vh; /* Ensures the background covers the full viewport height */
+}
+/* Add this for the container specifically */
+.container {
+    background-image: url('backgroundimage.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px; /* Adds some padding for better aesthetics */
+    border-radius: 10px; /* Optional: to add rounded corners */
+}
+
